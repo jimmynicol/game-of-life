@@ -14,9 +14,6 @@ define [], ->
           alive: d3.scale.category20c()
 
 
-    track: {}
-
-
     constructor: (options) ->
       @options = $.extend @defaultOptions(), options
       @renderWorkspace()
@@ -41,10 +38,13 @@ define [], ->
         .data(d3.range(@rows))
         .enter()
         .append('svg:g')
+        .attr('row', (d,i) ->
+          i
+        )
 
-      window.track = @track
+      self = @
 
-      @cells = @g.selectAll('rect')
+      @g.selectAll('rect')
         .data(d3.range(@columns))
         .enter()
         .append('svg:rect')
@@ -61,15 +61,7 @@ define [], ->
         .attr('fill-dead', @options.colors.cell.dead)
         .attr('fill-alive', @options.colors.cell.alive)
         .on('click', (d, i, row) ->
-          cell = d3.select(this)
-          if cell.style('fill') == cell.attr('fill-dead')
-            cell.style 'fill', cell.attr('fill-alive')
-            cell.attr 'alive', true
-            track["#{row}##{i}"] = cell
-          else
-            cell.style 'fill', cell.attr('fill-dead')
-            cell.attr 'alive', false
-            delete track["#{row}##{i}"]
+          self.toggleCell @
         )
         .style('fill', @options.colors.cell.dead)
         .attr('row', (d,i,row) ->
@@ -78,3 +70,35 @@ define [], ->
         .attr('cell', (d,i,row) ->
           i
         )
+
+
+    toggleCell: (cell) ->
+      cell = d3.select cell
+
+      if cell.style('fill') == cell.attr('fill-dead')
+        cell.style 'fill', cell.attr('fill-alive')
+        cell.attr 'alive', true
+      else
+        cell.style 'fill', cell.attr('fill-dead')
+        cell.attr 'alive', false
+
+
+    cellMatrix: ->
+      matrix = {}
+      for row, row_num in @svg.selectAll('g').selectAll('rect')
+        for cell, cell_num in row
+          matrix[row_num] = matrix[row_num] or {}
+          matrix[row_num][cell_num] = d3.select(cell).attr('alive') is 'true'
+      matrix
+
+
+    renderGeneration: (future, current) ->
+      current = current or cellMatrix
+
+      console.log current
+      console.log future
+
+      for ri, row of future
+        for ci of row
+          unless future[ri][ci] is current[ri][ci]
+            console.log 'toggle'

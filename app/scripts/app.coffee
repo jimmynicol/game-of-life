@@ -8,6 +8,6 @@ define includes, (Grid, Generation) ->
   grid = new Grid()
   console.log grid
 
-  generation = new Generation(grid)
+  window.generation = new Generation(grid)
 
   "App initialized!"
