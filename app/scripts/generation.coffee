@@ -22,6 +22,7 @@ define [], ->
       # take the new matrix and render the next generation
       @grid.renderGeneration @future, @current
 
+      # increment the generation count
       @generations++
 
 
@@ -55,9 +56,12 @@ define [], ->
       fate
 
 
-    # Get list of alive and dead the neighbours of this cell
+    # Build a hash of the status of the neighbours of a cell
     neighbours: (row, cell) ->
       cellStatus = @current[row][cell]
+
+      # build a hash of the status of the neighbours, remove one count for the
+      # status of the cell in question as the code below will count it.
       n =
         live: if cellStatus then -1 else 0
         dead: if cellStatus then 0 else -1
@@ -82,4 +86,5 @@ define [], ->
           else
             n.dead++
 
+      # return the neighbour hash
       n
