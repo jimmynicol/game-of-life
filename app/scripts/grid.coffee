@@ -61,7 +61,7 @@ define [], ->
         .attr('fill-dead', @options.colors.cell.dead)
         .attr('fill-alive', @options.colors.cell.alive)
         .on('click', (d, i, row) ->
-          self.toggleCell @
+          self.toggleCell d3.select(@)
         )
         .style('fill', @options.colors.cell.dead)
         .attr('row', (d,i,row) ->
@@ -73,8 +73,6 @@ define [], ->
 
 
     toggleCell: (cell) ->
-      cell = d3.select cell
-
       if cell.style('fill') == cell.attr('fill-dead')
         cell.style 'fill', cell.attr('fill-alive')
         cell.attr 'alive', true
@@ -84,21 +82,19 @@ define [], ->
 
 
     cellMatrix: ->
-      matrix = {}
-      for row, row_num in @svg.selectAll('g').selectAll('rect')
-        for cell, cell_num in row
-          matrix[row_num] = matrix[row_num] or {}
-          matrix[row_num][cell_num] = d3.select(cell).attr('alive') is 'true'
+      matrix = []
+      for row in @svg.selectAll('g').selectAll('rect')
+        row_arr = []
+        for cell in row
+          row_arr.push(d3.select(cell).attr('alive') is 'true')
+        matrix.push row_arr
       matrix
 
 
     renderGeneration: (future, current) ->
       current = current or cellMatrix
 
-      console.log current
-      console.log future
-
-      for ri, row of future
-        for ci of row
+      for row, ri in future
+        for fate, ci in row
           unless future[ri][ci] is current[ri][ci]
-            console.log 'toggle'
+            @toggleCell d3.select("rect[row=#{ri}]:eq(#{ci})")

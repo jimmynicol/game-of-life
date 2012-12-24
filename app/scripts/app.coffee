@@ -6,7 +6,8 @@ includes = [
 define includes, (Grid, Generation) ->
 
   grid = new Grid()
-  console.log grid
+
+  console.log "Rows: #{grid.rows} - Columns: #{grid.columns}"
 
   window.generation = new Generation(grid)
 

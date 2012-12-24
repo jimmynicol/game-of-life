@@ -1,0 +1,13 @@
+{
+  "name": "sizzle",
+  "version": "1.8.1",
+  "main": "./sizzle.js",
+  "dependencies": {},
+  "readme": "# Sizzle\n\n__A pure-JavaScript CSS selector engine designed to be easily dropped in to a host library.__\n\nMore information: http://sizzlejs.com/\n\nDiscussion: http://groups.google.com/group/sizzlejs\n\nDocumentation: https://github.com/jquery/sizzle/wiki/Sizzle-Documentation\n\nBrowser support: https://github.com/jquery/sizzle/wiki/Sizzle-Documentation#wiki-browsers\n\nTesting Sizzle:\n - run `make` to pull down QUnit from github, which is the only thing the Makefile does.\n - Open test/index.html in your browser to run the tests.\n - The actual unit tests are in test/unit/selectors.js and test/unit/utilities.js.\n\nDeveloping Sizzle with grunt:\n - `grunt` and `grunt lint` will lint sizzle.js and the tests.\n - `grunt watch` can be run to re-lint files as you change them\n",
+  "_id": "sizzle@1.8.1",
+  "description": "__A pure-JavaScript CSS selector engine designed to be easily dropped in to a host library.__",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jquery/sizzle.git"
+  }
+}
